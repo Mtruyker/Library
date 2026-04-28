@@ -1,0 +1,795 @@
+<Window x:Class="Biblioteka.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Библиотека"
+        Width="1540"
+        Height="960"
+        MinWidth="1280"
+        MinHeight="760"
+        Background="#F3F6F8"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="#165D59" />
+        <SolidColorBrush x:Key="AccentSoftBrush" Color="#E5F4F2" />
+        <SolidColorBrush x:Key="PanelBrush" Color="White" />
+        <SolidColorBrush x:Key="PanelBorderBrush" Color="#D5DEE6" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#526171" />
+
+        <Style x:Key="PanelBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource PanelBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource PanelBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="Margin" Value="0,26,10,0" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="#E7EEF4" />
+            <Setter Property="Foreground" Value="#1F2937" />
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="BorderBrush" Value="#C9D4DE" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="MinHeight" Value="38" />
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#C9D4DE" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="MinHeight" Value="38" />
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#C9D4DE" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="MinHeight" Value="38" />
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Setter Property="BorderBrush" Value="#D5DEE6" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="AlternatingRowBackground" Value="#F8FBFC" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Padding="22" CornerRadius="20" Margin="0,0,0,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0F172A" Offset="0" />
+                    <GradientStop Color="#165D59" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Управление БД «Библиотека»" FontSize="30" FontWeight="SemiBold" Foreground="White" />
+                    <TextBlock Margin="0,6,0,0"
+                               Text="WPF-приложение для учета читателей, изданий, экземпляров, выдач и возвратов"
+                               Foreground="#D1FAE5"
+                               FontSize="14" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#1F2937" CornerRadius="14" Padding="16,12">
+                    <StackPanel>
+                        <TextBlock Text="Подключение" Foreground="#A7F3D0" FontWeight="SemiBold" />
+                        <TextBlock Margin="0,4,0,0" Text="LibraryDB / localhost" Foreground="White" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <TabControl x:Name="MainTabControl" Grid.Row="1">
+            <TabItem Header="Главное">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="12">
+                        <TextBlock FontSize="24" FontWeight="SemiBold" Text="Рабочая панель библиотекаря" />
+                        <TextBlock Margin="0,6,0,18"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Text="В этом окне доступны переходы к основным разделам и сводка по текущему состоянию фонда." />
+
+                        <WrapPanel Margin="0,0,0,12">
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Читатели" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.ReadersCount}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Издания" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.TitlesCount}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Экземпляры" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.CopiesCount}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Доступно сейчас" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.AvailableCopiesCount}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Активные выдачи" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.ActiveLoansCount}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="235" Margin="0,0,12,12" Style="{StaticResource PanelBorderStyle}">
+                                <StackPanel>
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Должники" />
+                                    <TextBlock Margin="0,10,0,0" FontSize="30" FontWeight="SemiBold" Text="{Binding DashboardStats.DebtorsCount}" />
+                                </StackPanel>
+                            </Border>
+                        </WrapPanel>
+
+                        <Border Style="{StaticResource PanelBorderStyle}">
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" Text="Быстрые действия" />
+                                <WrapPanel Margin="0,14,0,0">
+                                    <Button Content="Открыть читателей" Style="{StaticResource PrimaryButtonStyle}" Click="OpenReadersTab_Click" />
+                                    <Button Content="Открыть издания" Style="{StaticResource PrimaryButtonStyle}" Click="OpenBooksTab_Click" />
+                                    <Button Content="Открыть экземпляры" Style="{StaticResource PrimaryButtonStyle}" Click="OpenCopiesTab_Click" />
+                                    <Button Content="Оформить выдачу" Style="{StaticResource PrimaryButtonStyle}" Click="OpenIssueTab_Click" />
+                                    <Button Content="Оформить возврат" Style="{StaticResource PrimaryButtonStyle}" Click="OpenReturnTab_Click" />
+                                    <Button Content="Показать должников" Style="{StaticResource PrimaryButtonStyle}" Click="OpenDebtorsTab_Click" />
+                                    <Button Content="Обновить данные" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshAllData_Click" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Читатели">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <StackPanel Width="360" Margin="0,0,14,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Поиск по ФИО или номеру билета" />
+                                <TextBox Text="{Binding ReaderSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <Button Content="Найти" Style="{StaticResource PrimaryButtonStyle}" Click="SearchReaders_Click" />
+                            <Button Content="Сбросить" Style="{StaticResource SecondaryButtonStyle}" Click="ResetReadersSearch_Click" />
+                            <Button Content="Обновить" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshReaders_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="18" />
+                            <ColumnDefinition Width="360" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}">
+                            <DataGrid ItemsSource="{Binding Readers}"
+                                      SelectedItem="{Binding SelectedReader, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Код" Binding="{Binding ReaderId}" Width="70" />
+                                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*" />
+                                    <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="140" />
+                                    <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="130" />
+                                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="220" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+
+                        <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" Text="Карточка читателя" />
+                                <TextBlock Margin="0,6,0,16"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Text="Поля ФИО и номер билета обязательны." />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="ФИО" />
+                                <TextBox Text="{Binding ReaderForm.FullName, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Номер читательского билета" />
+                                <TextBox Text="{Binding ReaderForm.TicketNumber, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Телефон" />
+                                <TextBox Text="{Binding ReaderForm.Phone, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Адрес" />
+                                <TextBox Height="82"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         Text="{Binding ReaderForm.Address, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button Content="Новая запись" Style="{StaticResource SecondaryButtonStyle}" Click="NewReader_Click" />
+                                    <Button Content="Сохранить" Style="{StaticResource PrimaryButtonStyle}" Click="SaveReader_Click" />
+                                    <Button Content="Удалить" Style="{StaticResource SecondaryButtonStyle}" Click="DeleteReader_Click" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Издания">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <StackPanel Width="250" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Название" />
+                                <TextBox Text="{Binding BookTitleSearch, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Width="240" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Автор" />
+                                <TextBox Text="{Binding BookAuthorSearch, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Width="180" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Жанр" />
+                                <TextBox Text="{Binding BookGenreSearch, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Width="140" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Год" />
+                                <TextBox Text="{Binding BookYearSearch, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <Button Content="Найти" Style="{StaticResource PrimaryButtonStyle}" Click="SearchBooks_Click" />
+                            <Button Content="Сбросить" Style="{StaticResource SecondaryButtonStyle}" Click="ResetBooksSearch_Click" />
+                            <Button Content="Обновить" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshBooks_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="18" />
+                            <ColumnDefinition Width="390" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}">
+                            <DataGrid ItemsSource="{Binding Books}"
+                                      SelectedItem="{Binding SelectedBook, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Код" Binding="{Binding BookId}" Width="60" />
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*" />
+                                    <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="200" />
+                                    <DataGridTextColumn Header="Издательство" Binding="{Binding Publisher}" Width="180" />
+                                    <DataGridTextColumn Header="Год" Binding="{Binding PublishYear}" Width="80" />
+                                    <DataGridTextColumn Header="Жанр" Binding="{Binding Genre}" Width="120" />
+                                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="140" />
+                                    <DataGridTextColumn Header="Экз." Binding="{Binding CopyCount}" Width="70" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+
+                        <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" Text="Карточка издания" />
+                                <TextBlock Margin="0,6,0,16"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Text="Для новой книги сначала выберите автора или добавьте его ниже." />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Название" />
+                                <TextBox Text="{Binding BookForm.Title, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Автор" />
+                                <ComboBox ItemsSource="{Binding Authors}"
+                                          DisplayMemberPath="FullName"
+                                          SelectedValuePath="AuthorId"
+                                          SelectedValue="{Binding BookForm.AuthorId, Mode=TwoWay}" />
+
+                                <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="12" Padding="12" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Добавить автора в справочник" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" Margin="0,0,10,0" Text="{Binding NewAuthorName, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button Grid.Column="1" Margin="0,0,0,0" Content="Добавить автора" Style="{StaticResource SecondaryButtonStyle}" Click="AddAuthor_Click" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Издательство" />
+                                <TextBox Text="{Binding BookForm.Publisher, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Год издания" />
+                                <TextBox Text="{Binding BookPublishYearInput, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Жанр" />
+                                <TextBox Text="{Binding BookForm.Genre, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="ISBN" />
+                                <TextBox Text="{Binding BookForm.ISBN, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button Content="Новая запись" Style="{StaticResource SecondaryButtonStyle}" Click="NewBook_Click" />
+                                    <Button Content="Сохранить" Style="{StaticResource PrimaryButtonStyle}" Click="SaveBook_Click" />
+                                    <Button Content="Удалить" Style="{StaticResource SecondaryButtonStyle}" Click="DeleteBook_Click" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Экземпляры">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <StackPanel Width="320" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Поиск по инвентарному номеру, названию или месту" />
+                                <TextBox Text="{Binding CopySearchText, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Width="180" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Статус" />
+                                <ComboBox ItemsSource="{Binding CopyStatusFilterOptions}"
+                                          SelectedItem="{Binding SelectedCopyStatusFilter, Mode=TwoWay}" />
+                            </StackPanel>
+                            <Button Content="Найти" Style="{StaticResource PrimaryButtonStyle}" Click="SearchCopies_Click" />
+                            <Button Content="Сбросить" Style="{StaticResource SecondaryButtonStyle}" Click="ResetCopiesSearch_Click" />
+                            <Button Content="Обновить" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshCopies_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="18" />
+                            <ColumnDefinition Width="390" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}">
+                            <DataGrid ItemsSource="{Binding Copies}"
+                                      SelectedItem="{Binding SelectedCopy, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Код" Binding="{Binding CopyId}" Width="60" />
+                                    <DataGridTextColumn Header="Инвентарный номер" Binding="{Binding InventoryNumber}" Width="150" />
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*" />
+                                    <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="180" />
+                                    <DataGridTextColumn Header="Местонахождение" Binding="{Binding Location}" Width="180" />
+                                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+
+                        <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" Text="Экземпляр книги" />
+                                <TextBlock Margin="0,6,0,16"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Text="Приложение хранит конкретные экземпляры и их текущее местонахождение." />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Издание" />
+                                <ComboBox ItemsSource="{Binding BookLookup}"
+                                          DisplayMemberPath="DisplayTitle"
+                                          SelectedValuePath="BookId"
+                                          SelectedValue="{Binding CopyForm.BookId, Mode=TwoWay}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Инвентарный номер" />
+                                <TextBox Text="{Binding CopyForm.InventoryNumber, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Местонахождение" />
+                                <TextBox Text="{Binding CopyForm.Location, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Статус" />
+                                <ComboBox ItemsSource="{Binding CopyStatusEditOptions}"
+                                          SelectedItem="{Binding CopyForm.Status, Mode=TwoWay}" />
+
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button Content="Новая запись" Style="{StaticResource SecondaryButtonStyle}" Click="NewCopy_Click" />
+                                    <Button Content="Сохранить" Style="{StaticResource PrimaryButtonStyle}" Click="SaveCopy_Click" />
+                                    <Button Content="Удалить" Style="{StaticResource SecondaryButtonStyle}" Click="DeleteCopy_Click" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Выдача книг">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <TextBlock Foreground="{StaticResource MutedTextBrush}"
+                                   Text="При выдаче программа проверяет статус экземпляра. Недоступные или потерянные экземпляры выдать нельзя." />
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="360" />
+                            <ColumnDefinition Width="18" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}">
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" Text="Оформление выдачи" />
+                                <TextBlock Margin="0,6,0,16"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Text="Выберите читателя, доступный экземпляр и срок возврата." />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Читатель" />
+                                <ComboBox ItemsSource="{Binding ReaderLookup}"
+                                          DisplayMemberPath="FullName"
+                                          SelectedValuePath="ReaderId"
+                                          SelectedValue="{Binding IssueReaderId, Mode=TwoWay}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Экземпляр" />
+                                <ComboBox ItemsSource="{Binding AvailableCopies}"
+                                          DisplayMemberPath="DisplayLabel"
+                                          SelectedValuePath="CopyId"
+                                          SelectedValue="{Binding IssueCopyId, Mode=TwoWay}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Дата выдачи" />
+                                <DatePicker SelectedDate="{Binding IssueDate, Mode=TwoWay}" />
+
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Срок возврата" />
+                                <DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay}" />
+
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button Content="Оформить выдачу" Style="{StaticResource PrimaryButtonStyle}" Click="IssueBook_Click" />
+                                    <Button Content="Обновить списки" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshLoansAndAvailability_Click" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <WrapPanel>
+                                    <StackPanel Width="330" Margin="0,0,12,0">
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Поиск по активным выдачам" />
+                                        <TextBox Text="{Binding LoanSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <Button Content="Найти" Style="{StaticResource PrimaryButtonStyle}" Click="SearchLoans_Click" />
+                                    <Button Content="Сбросить" Style="{StaticResource SecondaryButtonStyle}" Click="ResetLoansSearch_Click" />
+                                </WrapPanel>
+
+                                <DataGrid Grid.Row="1"
+                                          ItemsSource="{Binding ActiveLoans}"
+                                          SelectedItem="{Binding SelectedLoanForReturn, Mode=TwoWay}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Код" Binding="{Binding LoanId}" Width="60" />
+                                        <DataGridTextColumn Header="Читатель" Binding="{Binding ReaderName}" Width="*" />
+                                        <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Книга" Binding="{Binding BookTitle}" Width="220" />
+                                        <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Выдача" Binding="{Binding IssueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                        <DataGridTextColumn Header="Возврат до" Binding="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Возврат книг">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="18" />
+                        <ColumnDefinition Width="360" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}">
+                        <DataGrid ItemsSource="{Binding ActiveLoans}"
+                                  SelectedItem="{Binding SelectedLoanForReturn, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Код" Binding="{Binding LoanId}" Width="60" />
+                                <DataGridTextColumn Header="Читатель" Binding="{Binding ReaderName}" Width="*" />
+                                <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="120" />
+                                <DataGridTextColumn Header="Книга" Binding="{Binding BookTitle}" Width="220" />
+                                <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="120" />
+                                <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                <DataGridTextColumn Header="Срок возврата" Binding="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
+                        <StackPanel>
+                            <TextBlock FontSize="18" FontWeight="SemiBold" Text="Оформление возврата" />
+                            <TextBlock Margin="0,6,0,16"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Text="Выберите активную выдачу в таблице слева и укажите дату возврата." />
+
+                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Читатель" />
+                            <TextBlock Margin="0,0,0,12" FontSize="14" Text="{Binding SelectedLoanForReturn.ReaderName, TargetNullValue=-}" />
+
+                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Книга" />
+                            <TextBlock Margin="0,0,0,12" FontSize="14" Text="{Binding SelectedLoanForReturn.BookTitle, TargetNullValue=-}" />
+
+                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Инвентарный номер" />
+                            <TextBlock Margin="0,0,0,12" FontSize="14" Text="{Binding SelectedLoanForReturn.InventoryNumber, TargetNullValue=-}" />
+
+                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Дата возврата" />
+                            <DatePicker SelectedDate="{Binding ReturnDate, Mode=TwoWay}" />
+
+                            <WrapPanel Margin="0,8,0,0">
+                                <Button Content="Оформить возврат" Style="{StaticResource PrimaryButtonStyle}" Click="ReturnBook_Click" />
+                                <Button Content="Обновить" Style="{StaticResource SecondaryButtonStyle}" Click="RefreshLoansAndAvailability_Click" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Должники">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <TextBlock Margin="0,26,16,0"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Text="Список формируется по условию: срок возврата меньше текущей даты, а книга еще не возвращена." />
+                            <Button Content="Обновить список" Style="{StaticResource PrimaryButtonStyle}" Click="RefreshDebtors_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}">
+                        <DataGrid ItemsSource="{Binding Debtors}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Код" Binding="{Binding LoanId}" Width="60" />
+                                <DataGridTextColumn Header="Читатель" Binding="{Binding ReaderName}" Width="*" />
+                                <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="120" />
+                                <DataGridTextColumn Header="Книга" Binding="{Binding BookTitle}" Width="220" />
+                                <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="120" />
+                                <DataGridTextColumn Header="Выдана" Binding="{Binding IssueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                <DataGridTextColumn Header="Вернуть до" Binding="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Отчеты">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <TextBlock Margin="0,26,16,0"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Text="В простой версии доступны четыре базовых отчета по библиотечному фонду." />
+                            <Button Content="Обновить отчеты" Style="{StaticResource PrimaryButtonStyle}" Click="RefreshReports_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}">
+                        <TabControl>
+                            <TabItem Header="Все книги">
+                                <DataGrid ItemsSource="{Binding BooksReport}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*" />
+                                        <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="220" />
+                                        <DataGridTextColumn Header="Издательство" Binding="{Binding Publisher}" Width="180" />
+                                        <DataGridTextColumn Header="Год" Binding="{Binding PublishYear}" Width="90" />
+                                        <DataGridTextColumn Header="Жанр" Binding="{Binding Genre}" Width="140" />
+                                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="160" />
+                                        <DataGridTextColumn Header="Экземпляров" Binding="{Binding CopyCount}" Width="120" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </TabItem>
+
+                            <TabItem Header="Доступные экземпляры">
+                                <DataGrid ItemsSource="{Binding AvailableCopiesReport}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="140" />
+                                        <DataGridTextColumn Header="Книга" Binding="{Binding Title}" Width="*" />
+                                        <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}" Width="220" />
+                                        <DataGridTextColumn Header="Местонахождение" Binding="{Binding Location}" Width="220" />
+                                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </TabItem>
+
+                            <TabItem Header="Выданные книги">
+                                <DataGrid ItemsSource="{Binding IssuedBooksReport}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Читатель" Binding="{Binding ReaderName}" Width="*" />
+                                        <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Книга" Binding="{Binding BookTitle}" Width="220" />
+                                        <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Выдача" Binding="{Binding IssueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                        <DataGridTextColumn Header="Вернуть до" Binding="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </TabItem>
+
+                            <TabItem Header="Должники">
+                                <DataGrid ItemsSource="{Binding DebtorsReport}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Читатель" Binding="{Binding ReaderName}" Width="*" />
+                                        <DataGridTextColumn Header="Билет" Binding="{Binding TicketNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Книга" Binding="{Binding BookTitle}" Width="220" />
+                                        <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="120" />
+                                        <DataGridTextColumn Header="Выдача" Binding="{Binding IssueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="110" />
+                                        <DataGridTextColumn Header="Срок возврата" Binding="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}}" Width="120" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </TabItem>
+                        </TabControl>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Каталожная карточка">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                        <WrapPanel>
+                            <StackPanel Width="520" Margin="0,0,12,0">
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="Издание" />
+                                <ComboBox ItemsSource="{Binding BookLookup}"
+                                          DisplayMemberPath="DisplayTitle"
+                                          SelectedValuePath="BookId"
+                                          SelectedValue="{Binding SelectedCatalogBookId, Mode=TwoWay}" />
+                            </StackPanel>
+                            <Button Content="Показать карточку" Style="{StaticResource PrimaryButtonStyle}" Click="ShowCatalogCard_Click" />
+                        </WrapPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}" Padding="28">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="280" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock FontSize="26" FontWeight="SemiBold" Text="{Binding CurrentCatalogCard.Title}" TextWrapping="Wrap" />
+                                <TextBlock Margin="0,6,0,24"
+                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Text="Библиографическое описание издания" />
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" Text="Автор:" />
+                                    <TextBlock Grid.Column="1" Text="{Binding CurrentCatalogCard.AuthorName}" TextWrapping="Wrap" />
+                                </Grid>
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" Text="Издательство:" />
+                                    <TextBlock Grid.Column="1" Text="{Binding CurrentCatalogCard.Publisher}" TextWrapping="Wrap" />
+                                </Grid>
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" Text="Год издания:" />
+                                    <TextBlock Grid.Column="1" Text="{Binding CurrentCatalogCard.PublishYear}" />
+                                </Grid>
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" Text="Жанр:" />
+                                    <TextBlock Grid.Column="1" Text="{Binding CurrentCatalogCard.Genre}" TextWrapping="Wrap" />
+                                </Grid>
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" Text="ISBN:" />
+                                    <TextBlock Grid.Column="1" Text="{Binding CurrentCatalogCard.ISBN}" />
+                                </Grid>
+                            </StackPanel>
+
+                            <Border Grid.Column="2" Background="{StaticResource AccentSoftBrush}" CornerRadius="18" Padding="18">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Foreground="{StaticResource MutedTextBrush}" Text="Количество экземпляров" />
+                                    <TextBlock Margin="0,12,0,0"
+                                               FontSize="42"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource AccentBrush}"
+                                               Text="{Binding CurrentCatalogCard.CopyCount}" />
+                                    <TextBlock Margin="0,10,0,0"
+                                               Foreground="{StaticResource MutedTextBrush}"
+                                               Text="Карточка формируется по данным таблиц Books, Authors и BookCopies." />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
