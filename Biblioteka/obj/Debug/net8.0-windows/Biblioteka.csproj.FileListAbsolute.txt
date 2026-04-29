@@ -66,3 +66,4 @@ C:\Users\kab\RiderProjects\Biblioteka\Biblioteka\bin\Debug\net8.0-windows\runtim
 C:\Users\kab\RiderProjects\Biblioteka\Biblioteka\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\kab\RiderProjects\Biblioteka\Biblioteka\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\kab\RiderProjects\Biblioteka\Biblioteka\obj\Debug\net8.0-windows\Biblioteka.csproj.Up2Date
+C:\Users\kab\RiderProjects\Biblioteka\Biblioteka\obj\Debug\net8.0-windows\Biblioteka.sourcelink.json
